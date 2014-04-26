@@ -1,36 +1,31 @@
 <?php
 
 function calRange($input) {
-  $inputParser = new InputParser($input);
-  $input = $inputParser->getInput();
-  $leftBorder = $input->leftBorder;
-  $rightBorder = $input->rightBorder;
-  $sign = $input->sign;
-
-  throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder);
-  return createSet($sign, $leftBorder, $rightBorder)->toString();
+  $input = (new InputParser($input))->getInput();
+  throwExceptionIfSetIsNotValid($input);
+  return createSet($input)->toString();
 }
 
-function throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder) {
-  if($leftBorder == $rightBorder) {
-    if(!$sign->isCloseClose() && !$sign->isOpenOpen())
+function throwExceptionIfSetIsNotValid($input) {
+  if($input->leftBorder == $input->rightBorder) {
+    if(!$input->sign->isCloseClose() && !$input->sign->isOpenOpen())
         throw new Exception("invalid");
   }
 }
 
-function createSet($sign, $leftBorder, $rightBorder) {
-  if($sign->isOpenClose())
-    return new HighBorderIncludedSet($leftBorder, $rightBorder);
-  else if($sign->isCloseOpen())
-    return new LowBorderIncludedSet($leftBorder, $rightBorder);
-  else if($sign->isCloseClose())
-    return $leftBorder==$rightBorder? 
-      new SetWithOneMember($leftBorder, $rightBorder):
-      new Set($leftBorder, $rightBorder);
+function createSet($input) {
+  if($input->sign->isOpenClose())
+    return new HighBorderIncludedSet($input->leftBorder, $input->rightBorder);
+  else if($input->sign->isCloseOpen())
+    return new LowBorderIncludedSet($input->leftBorder, $input->rightBorder);
+  else if($input->sign->isCloseClose())
+    return $input->leftBorder==$input->rightBorder? 
+      new SetWithOneMember($input->leftBorder, $input->rightBorder):
+      new Set($input->leftBorder, $input->rightBorder);
   else
-    return $leftBorder==$rightBorder? 
-      new EmptySet($leftBorder, $rightBorder):
-      new NoBorderSet($leftBorder, $rightBorder);
+    return $input->leftBorder==$input->rightBorder? 
+      new EmptySet($input->leftBorder, $input->rightBorder):
+      new NoBorderSet($input->leftBorder, $input->rightBorder);
 }
 
 class InputParser {
