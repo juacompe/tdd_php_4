@@ -6,25 +6,25 @@ function calRange($input) {
   $rightBorder = $inputParser->rightBorder();
 
   if($leftBorder == $rightBorder) {
-    if($inputParser->isCloseClose()) {
-        $set = new SetWithOneMember($leftBorder, $rightBorder);
-    } else if ($inputParser->isOpenOpen()) {
-        $set = new EmptySet($leftBorder, $rightBorder);
-    } else {
+    if(!$inputParser->isCloseClose() && !$inputParser->isOpenOpen())
         throw new Exception("invalid");
-    }
-    return $set->toString();
   }
 
-  if($inputParser->isOpenClose())  {
+  if($inputParser->isOpenClose())
     $set = new HighBorderIncludedSet($leftBorder, $rightBorder);
-  } else if($inputParser->isCloseOpen()) {
+  else if($inputParser->isCloseOpen())
     $set = new LowBorderIncludedSet($leftBorder, $rightBorder);
-  } else if($inputParser->isCloseClose()){
-    $set = new Set($leftBorder, $rightBorder);
-  } else {
-    $set = new NoBorderSet($leftBorder, $rightBorder);
-  }
+  else if($inputParser->isCloseClose())
+    if($leftBorder == $rightBorder)
+        $set = new SetWithOneMember($leftBorder, $rightBorder);
+    else
+      $set = new Set($leftBorder, $rightBorder);
+  else
+    if($leftBorder == $rightBorder)
+      $set = new EmptySet($leftBorder, $rightBorder);
+    else
+      $set = new NoBorderSet($leftBorder, $rightBorder);
+  
   return $set->toString();
 }
 
