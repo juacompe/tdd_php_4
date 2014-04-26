@@ -12,9 +12,6 @@ function calRange($input) {
   $firstZero = $leftBorder . ",";
 
   if($leftBorder == $rightBorder) {
-    $lastFive = "";
-    $firstZero = "";
-  
     if($inputParser->isCloseClose()) {
         $set = new SetWithOneMember($leftBorder, $rightBorder);
         $setMembers = $set->membersInBetween();
@@ -24,6 +21,7 @@ function calRange($input) {
     } else {
         throw new Exception("invalid");
     }
+    return $set->toString();
   }
 
   if($inputParser->isOpenClose())  {
@@ -89,9 +87,13 @@ class EmptySet extends Set {
   function membersInBetween() {
     return "";
   }
+
+  function toString() {
+    return "{" . $this->membersInBetween() . "}";
+  }
 }
 
-class SetWithOneMember extends Set {
+class SetWithOneMember extends EmptySet {
   function membersInBetween() {
     return $this->lowBorder; 
   }
