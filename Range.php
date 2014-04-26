@@ -16,7 +16,7 @@ function calRange($input) {
   $leftBorder = $inputParser->leftBorder();
   $rightBorder = $inputParser->rightBorder();
 
-  $setMembers = getCloseMembers($leftBorder,$rightBorder);
+  $setMembers = $inputParser->numbersInBetween();
 
   $lastFive = "," . $rightBorder;
   $firstZero = $leftBorder . ",";
@@ -60,14 +60,14 @@ class InputParser {
   } 
 
   function leftBorder() {
-    return $this->member()[0];
+    return $this->border()[0];
   }
 
   function rightBorder() {
-    return $this->member()[1];
+    return $this->border()[1];
   }
 
-  function member() {
+  function border() {
     $membersRange = substr($this->input,1,3);
     return explode(',',$membersRange);
   }
@@ -90,5 +90,9 @@ class InputParser {
 
   function signs() {
     return $this->firstSign . $this->lastSign;
+  }
+
+  function numbersInBetween() {
+    return getCloseMembers($this->leftBorder(),$this->rightBorder());
   }
 }
