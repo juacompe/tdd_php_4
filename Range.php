@@ -83,7 +83,15 @@ class InputParser {
   }
 }
 
-class EmptySet extends Set {
+class EmptySet {
+  protected $lowBorder;
+  protected $highBorder;
+
+  function __construct($lowBorder, $highBorder) {
+    $this->lowBorder = $lowBorder;
+    $this->highBorder = $highBorder;
+  }
+
   function membersInBetween() {
     return "";
   }
@@ -99,15 +107,7 @@ class SetWithOneMember extends EmptySet {
   }
 }
 
-class Set {
-  protected $lowBorder;
-  protected $highBorder;
-
-  function __construct($lowBorder, $highBorder) {
-    $this->lowBorder = $lowBorder;
-    $this->highBorder = $highBorder;
-  }
-
+class Set extends EmptySet {
   function membersInBetween() {
     if($this->lowBorder == $this->highBorder){
       return "";
