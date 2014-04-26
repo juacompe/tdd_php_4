@@ -18,10 +18,8 @@ function calRange($input) {
 
   $setMembers = getCloseMembers($firstMember,$lastMember);
 
-  $firstSign = $input[0];
-  $lastSign = $input[4];
+  $signs = $inputParser->signs();
 
-  $signs = $firstSign . $lastSign;
   $lastFive = "," . $lastMember;
   $firstZero = $firstMember . ",";
 
@@ -52,10 +50,15 @@ function calRange($input) {
 }
 
 class InputParser {
-  public $input;
+  private $input;
+  private $firstSign;
+  private $lastSign;
 
   function __construct($input) { 
     $this->input = $input;
+    $this->firstSign = $input[0];
+    $this->lastSign = $input[4];
+
   } 
 
   function firstMember() {
@@ -72,6 +75,10 @@ class InputParser {
 
   function membersRange() {
     return substr($this->input,1,3);
+  }
+
+  function signs() {
+    return $this->firstSign . $this->lastSign;
   }
 
 }
