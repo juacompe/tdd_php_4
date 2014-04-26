@@ -4,17 +4,18 @@ function calRange($input) {
   $inputParser = new InputParser($input);
   $leftBorder = $inputParser->leftBorder();
   $rightBorder = $inputParser->rightBorder();
+  $sign = new Sign($inputParser->signs());
 
   if($leftBorder == $rightBorder) {
-    if(!$inputParser->isCloseClose() && !$inputParser->isOpenOpen())
+    if(!$sign->isCloseClose() && !$sign->isOpenOpen())
         throw new Exception("invalid");
   }
 
-  if($inputParser->isOpenClose())
+  if($sign->isOpenClose())
     $set = new HighBorderIncludedSet($leftBorder, $rightBorder);
-  else if($inputParser->isCloseOpen())
+  else if($sign->isCloseOpen())
     $set = new LowBorderIncludedSet($leftBorder, $rightBorder);
-  else if($inputParser->isCloseClose())
+  else if($sign->isCloseClose())
     if($leftBorder == $rightBorder)
         $set = new SetWithOneMember($leftBorder, $rightBorder);
     else
@@ -53,24 +54,32 @@ class InputParser {
     return explode(',',$membersRange);
   }
 
+  function signs() {
+    return $this->firstSign . $this->lastSign;
+  }
+}
+
+class Sign {
+  private $signs;
+
+  function __construct($signs) {
+    $this->signs = $signs;
+  }
+
   function isOpenOpen() {
-    return $this->signs() == "()";
+    return $this->signs == "()";
   }
 
   function isCloseClose() {
-    return $this->signs() == "[]";
+    return $this->signs == "[]";
   }
 
   function isOpenClose() {
-    return $this->signs() == "(]";
+    return $this->signs == "(]";
   }
 
   function isCloseOpen() {
-    return $this->signs() == "[)";
-  }
-
-  function signs() {
-    return $this->firstSign . $this->lastSign;
+    return $this->signs == "[)";
   }
 }
 
