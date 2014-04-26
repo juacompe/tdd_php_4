@@ -21,7 +21,7 @@ function calRange($input) {
     } else if ($inputParser->isOpenOpen()) {
         $set = new EmptySet($leftBorder, $rightBorder);
         $setMembers = $set->membersInBetween();
-    } else if($inputParser->isOpenClose()){
+    } else {
         throw new Exception("invalid");
     }
   }
