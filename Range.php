@@ -118,10 +118,16 @@ class Set extends EmptySet {
     return implode($result,',');
   }
 
+  function higherBound() {
+    return "," . $this->highBorder;
+  }
+
+  function lowerBound() {
+    return $this->lowBorder . ",";
+  }
+
   function members() {
-    $lastFive = "," . $this->highBorder;
-    $firstZero = $this->lowBorder . ",";
-    return $firstZero . $this->membersInBetween() . $lastFive;
+    return $this->lowerBound() . $this->membersInBetween() . $this->higherBound();
   }
 
   function toString() {
