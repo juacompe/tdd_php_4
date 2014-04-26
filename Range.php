@@ -11,15 +11,15 @@ function getCloseMembers($firstRange, $lastRange){
   return $result;
 }
 
-function calRange($range) {
+function calRange($input) {
 
-  $membersRange = substr($range,1,3);
+  $membersRange = substr($input,1,3);
   $member = explode(',',$membersRange);
 
   $setMembers = getCloseMembers($member[0],$member[1]);
 
-  $firstSign = $range[0];
-  $lastSign = $range[4];
+  $firstSign = $input[0];
+  $lastSign = $input[4];
 
   $signs = $firstSign . $lastSign;
   $lastFive = "," . $member[1];
