@@ -13,23 +13,25 @@ function getCloseMembers($firstRange, $lastRange){
 
 function calRange($input) {
   $inputParser = new InputParser($input);
-  $member = explode(',',$inputParser->membersRange());
+  $member = $inputParser->member();
+  $firstMember = $member[0];
+  $lastMember = $member[1];
 
-  $setMembers = getCloseMembers($member[0],$member[1]);
+  $setMembers = getCloseMembers($firstMember,$lastMember);
 
   $firstSign = $input[0];
   $lastSign = $input[4];
 
   $signs = $firstSign . $lastSign;
-  $lastFive = "," . $member[1];
-  $firstZero = $member[0] . ",";
+  $lastFive = "," . $lastMember;
+  $firstZero = $firstMember . ",";
 
-  if($member[0] == $member[1]) {
+  if($firstMember == $lastMember) {
     $lastFive = "";
     $firstZero = "";
   
     if($signs == "[]") {
-        $setMembers = $member[0];
+        $setMembers = $firstMember;
     } else if ($signs == "()") {
         $setMembers = "";
     } else if($signs == "(]"){
@@ -59,5 +61,9 @@ class InputParser {
 
   function membersRange() {
     return substr($this->input,1,3);
+  }
+
+  function member() {
+    return explode(',',$this->membersRange());
   }
 }
