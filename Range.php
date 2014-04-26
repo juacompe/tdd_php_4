@@ -19,20 +19,17 @@ function throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder) {
 
 function createSet($sign, $leftBorder, $rightBorder) {
   if($sign->isOpenClose())
-    $set = new HighBorderIncludedSet($leftBorder, $rightBorder);
+    return new HighBorderIncludedSet($leftBorder, $rightBorder);
   else if($sign->isCloseOpen())
-    $set = new LowBorderIncludedSet($leftBorder, $rightBorder);
+    return new LowBorderIncludedSet($leftBorder, $rightBorder);
   else if($sign->isCloseClose())
-    if($leftBorder == $rightBorder)
-        $set = new SetWithOneMember($leftBorder, $rightBorder);
-    else
-      $set = new Set($leftBorder, $rightBorder);
+    return $leftBorder==$rightBorder? 
+      new SetWithOneMember($leftBorder, $rightBorder):
+      new Set($leftBorder, $rightBorder);
   else
-    if($leftBorder == $rightBorder)
-      $set = new EmptySet($leftBorder, $rightBorder);
-    else
-      $set = new NoBorderSet($leftBorder, $rightBorder);
-  return $set;
+    return $leftBorder==$rightBorder? 
+      new EmptySet($leftBorder, $rightBorder):
+      new NoBorderSet($leftBorder, $rightBorder);
 }
 
 class InputParser {
