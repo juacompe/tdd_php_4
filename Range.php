@@ -27,22 +27,22 @@ function calRange($input) {
     $lastFive = "";
     $firstZero = "";
   
-    if($signs == "[]") {
+    if($inputParser->isCloseClose()) {
         $setMembers = $firstMember;
-    } else if ($signs == "()") {
+    } else if ($inputParser->isOpenOpen()) {
         $setMembers = "";
-    } else if($signs == "(]"){
+    } else if($inputParser->isOpenClose()){
         throw new Exception("invalid");
     }
   }
 
-  if($signs == "(]")  {
+  if($inputParser->isOpenClose())  {
     $setMembers = $setMembers . $lastFive;
 
-  } else if($signs == "[)") {
+  } else if($inputParser->isCloseOpen()) {
     $setMembers = $firstZero . $setMembers;
 
-  } else if($signs == "[]"){
+  } else if($inputParser->isCloseClose()){
     $setMembers = $firstZero . $setMembers . $lastFive;
   }
 
@@ -74,8 +74,23 @@ class InputParser {
     return explode(',',$membersRange);
   }
 
+  function isOpenOpen() {
+    return $this->signs() == "()";
+  }
+
+  function isCloseClose() {
+    return $this->signs() == "[]";
+  }
+
+  function isOpenClose() {
+    return $this->signs() == "(]";
+  }
+
+  function isCloseOpen() {
+    return $this->signs() == "[)";
+  }
+
   function signs() {
     return $this->firstSign . $this->lastSign;
   }
-
 }
