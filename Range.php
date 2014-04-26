@@ -7,10 +7,14 @@ function calRange($input) {
 }
 
 function throwExceptionIfSetIsNotValid($input) {
-  if($input->leftBorder == $input->rightBorder) {
-    if(!$input->sign->isCloseClose() && !$input->sign->isOpenOpen())
-        throw new Exception("invalid");
-  }
+  if(isNotValidRange($input))
+    throw new Exception("invalid");
+}
+
+function isNotValidRange($input) {
+    return $input->leftBorder == $input->rightBorder
+      && !$input->sign->isCloseClose() 
+      && !$input->sign->isOpenOpen();
 }
 
 function createSet($input) {
