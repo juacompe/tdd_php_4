@@ -31,7 +31,7 @@ function calRange($input) {
     $setMembers = $firstZero . $setMembers;
 
   } else if($inputParser->isCloseClose()){
-    $setMembers = $firstZero . $setMembers . $lastFive;
+    return $set->toString();
   }
 
   return "{" . $setMembers . "}";
@@ -116,5 +116,15 @@ class Set {
       $result[] = $i;
     }
     return implode($result,',');
+  }
+
+  function members() {
+    $lastFive = "," . $this->highBorder;
+    $firstZero = $this->lowBorder . ",";
+    return $firstZero . $this->membersInBetween() . $lastFive;
+  }
+
+  function toString() {
+    return "{" . $this->members() . "}";
   }
 }
