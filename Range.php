@@ -1,10 +1,5 @@
 <?php
 
-function getCloseMembers($firstRange, $lastRange){
-  $set = new Set($firstRange, $lastRange);
-  return $set->membersInBetween();
-}
-
 function calRange($input) {
   $inputParser = new InputParser($input);
   $leftBorder = $inputParser->leftBorder();
