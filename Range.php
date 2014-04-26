@@ -25,8 +25,8 @@ function calRange($input) {
   }
 
   if($inputParser->isOpenClose())  {
-    $setMembers = $setMembers . $lastFive;
-
+    $set = new NoBorderSet($leftBorder, $rightBorder);
+    return $set->toString();
   } else if($inputParser->isCloseOpen()) {
     $set = new LowBorderIncludedSet($leftBorder, $rightBorder);
     return $set->toString();
@@ -133,5 +133,12 @@ class LowBorderIncludedSet extends Set {
   function members() {
     $firstZero = $this->lowBorder . ",";
     return $firstZero . $this->membersInBetween();
+  }
+}
+
+class NoBorderSet extends Set {
+  function members() {
+    $lastFive = "," . $this->highBorder;
+    return $this->membersInBetween() . $lastFive;
   }
 }
