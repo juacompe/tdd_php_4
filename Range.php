@@ -70,11 +70,8 @@ class InputParser {
   }
 
   function member() {
-    return explode(',',$this->membersRange());
-  }
-
-  function membersRange() {
-    return substr($this->input,1,3);
+    $membersRange = substr($this->input,1,3);
+    return explode(',',$membersRange);
   }
 
   function signs() {
