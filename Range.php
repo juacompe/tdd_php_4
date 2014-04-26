@@ -6,13 +6,15 @@ function calRange($input) {
   $rightBorder = $inputParser->rightBorder();
   $sign = new Sign($inputParser->signs());
 
+  throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder);
+  return createSet($sign, $leftBorder, $rightBorder)->toString();
+}
+
+function throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder) {
   if($leftBorder == $rightBorder) {
     if(!$sign->isCloseClose() && !$sign->isOpenOpen())
         throw new Exception("invalid");
   }
-  $set = createSet($sign, $leftBorder, $rightBorder);
-
-  return $set->toString();
 }
 
 function createSet($sign, $leftBorder, $rightBorder) {
