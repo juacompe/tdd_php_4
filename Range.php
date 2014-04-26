@@ -28,9 +28,8 @@ function calRange($input) {
     $set = new Set($leftBorder, $rightBorder);
     return $set->toString();
   } else {
-    $set = new Set($leftBorder, $rightBorder);
-    $setMembers = $set->membersInBetween();
-    return "{" . $setMembers . "}";
+    $set = new NoBorderSet($leftBorder, $rightBorder);
+    return $set->toString();
   }
 
 
@@ -106,7 +105,7 @@ class SetWithOneMember extends EmptySet {
   }
 }
 
-class Set extends EmptySet {
+class NoBorderSet extends EmptySet {
   function membersInBetween() {
     if($this->lowBorder == $this->highBorder){
       return "";
@@ -116,7 +115,9 @@ class Set extends EmptySet {
     }
     return implode($result,',');
   }
+}
 
+class Set extends NoBorderSet {
   function higherBound() {
     return "," . $this->highBorder;
   }
