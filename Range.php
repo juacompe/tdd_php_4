@@ -10,7 +10,12 @@ function calRange($input) {
     if(!$sign->isCloseClose() && !$sign->isOpenOpen())
         throw new Exception("invalid");
   }
+  $set = createSet($sign, $leftBorder, $rightBorder);
 
+  return $set->toString();
+}
+
+function createSet($sign, $leftBorder, $rightBorder) {
   if($sign->isOpenClose())
     $set = new HighBorderIncludedSet($leftBorder, $rightBorder);
   else if($sign->isCloseOpen())
@@ -25,8 +30,7 @@ function calRange($input) {
       $set = new EmptySet($leftBorder, $rightBorder);
     else
       $set = new NoBorderSet($leftBorder, $rightBorder);
-  
-  return $set->toString();
+  return $set;
 }
 
 class InputParser {
