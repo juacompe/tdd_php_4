@@ -2,9 +2,10 @@
 
 function calRange($input) {
   $inputParser = new InputParser($input);
-  $leftBorder = $inputParser->leftBorder();
-  $rightBorder = $inputParser->rightBorder();
-  $sign = new Sign($inputParser->signs());
+  $input = $inputParser->getInput();
+  $leftBorder = $input->leftBorder;
+  $rightBorder = $input->rightBorder;
+  $sign = $input->sign;
 
   throwExceptionIfSetIsNotValid($sign, $leftBorder, $rightBorder);
   return createSet($sign, $leftBorder, $rightBorder)->toString();
@@ -60,6 +61,20 @@ class InputParser {
   function signs() {
     return $this->firstSign . $this->lastSign;
   }
+
+  function getInput() {
+    $input = new Input();
+    $input->leftBorder = $this->leftBorder();
+    $input->rightBorder = $this->rightBorder();
+    $input->sign = new Sign($this->signs());
+    return $input;
+  }
+}
+
+class Input {
+  public $leftBorder;
+  public $rightBorder;
+  public $sign;
 }
 
 class Sign {
