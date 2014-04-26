@@ -8,9 +8,6 @@ function calRange($input) {
   $set = new Set($leftBorder, $rightBorder);
   $setMembers = $set->membersInBetween();
 
-  $lastFive = "," . $rightBorder;
-  $firstZero = $leftBorder . ",";
-
   if($leftBorder == $rightBorder) {
     if($inputParser->isCloseClose()) {
         $set = new SetWithOneMember($leftBorder, $rightBorder);
@@ -137,14 +134,12 @@ class Set extends EmptySet {
 
 class LowBorderIncludedSet extends Set {
   function members() {
-    $firstZero = $this->lowBorder . ",";
-    return $firstZero . $this->membersInBetween();
+    return $this->lowerBound() . $this->membersInBetween();
   }
 }
 
 class NoBorderSet extends Set {
   function members() {
-    $lastFive = "," . $this->highBorder;
-    return $this->membersInBetween() . $lastFive;
+    return $this->membersInBetween() . $this->higherBound();
   }
 }
