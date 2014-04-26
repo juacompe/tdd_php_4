@@ -2,7 +2,7 @@
 
 function getCloseMembers($firstRange, $lastRange){
   $set = new Set($firstRange, $lastRange);
-  return $set->members();
+  return $set->membersInBetween();
 }
 
 function calRange($input) {
@@ -11,7 +11,7 @@ function calRange($input) {
   $rightBorder = $inputParser->rightBorder();
 
   $set = new Set($leftBorder, $rightBorder);
-  $setMembers = $set->members();
+  $setMembers = $set->membersInBetween();
 
   $lastFive = "," . $rightBorder;
   $firstZero = $leftBorder . ",";
@@ -97,7 +97,7 @@ class Set {
     $this->highBorder = $highBorder;
   }
 
-  function members() {
+  function membersInBetween() {
     if($this->lowBorder==$this->highBorder){
       return "";
     }
