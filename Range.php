@@ -18,8 +18,6 @@ function calRange($input) {
 
   $setMembers = getCloseMembers($firstMember,$lastMember);
 
-  $signs = $inputParser->signs();
-
   $lastFive = "," . $lastMember;
   $firstZero = $firstMember . ",";
 
