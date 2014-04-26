@@ -1,14 +1,8 @@
 <?php
 
 function getCloseMembers($firstRange, $lastRange){
-  if($firstRange==$lastRange){
-    return "";
-  }
-  for($i=$firstRange+1; $i< $lastRange; $i++){
-    $result[] = $i;
-  }
-  $result = implode($result,',');
-  return $result;
+  $set = new Set($firstRange, $lastRange);
+  return $set->members();
 }
 
 function calRange($input) {
@@ -16,7 +10,8 @@ function calRange($input) {
   $leftBorder = $inputParser->leftBorder();
   $rightBorder = $inputParser->rightBorder();
 
-  $setMembers = $inputParser->numbersInBetween();
+  $set = new Set($leftBorder, $rightBorder);
+  $setMembers = $set->members();
 
   $lastFive = "," . $rightBorder;
   $firstZero = $leftBorder . ",";
@@ -91,8 +86,24 @@ class InputParser {
   function signs() {
     return $this->firstSign . $this->lastSign;
   }
+}
 
-  function numbersInBetween() {
-    return getCloseMembers($this->leftBorder(),$this->rightBorder());
+class Set {
+  private $lowBorder;
+  private $highBorder;
+
+  function __construct($lowBorder, $highBorder) {
+    $this->lowBorder = $lowBorder;
+    $this->highBorder = $highBorder;
+  }
+
+  function members() {
+    if($this->lowBorder==$this->highBorder){
+      return "";
+    }
+    for($i=$this->lowBorder+1; $i< $this->highBorder; $i++){
+      $result[] = $i;
+    }
+    return implode($result,',');
   }
 }
