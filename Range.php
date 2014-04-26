@@ -5,9 +5,6 @@ function calRange($input) {
   $leftBorder = $inputParser->leftBorder();
   $rightBorder = $inputParser->rightBorder();
 
-  $set = new Set($leftBorder, $rightBorder);
-  $setMembers = $set->membersInBetween();
-
   if($leftBorder == $rightBorder) {
     if($inputParser->isCloseClose()) {
         $set = new SetWithOneMember($leftBorder, $rightBorder);
@@ -22,16 +19,21 @@ function calRange($input) {
   }
 
   if($inputParser->isOpenClose())  {
-    $set = new NoBorderSet($leftBorder, $rightBorder);
+    $set = new HighBorderIncludedSet($leftBorder, $rightBorder);
     return $set->toString();
   } else if($inputParser->isCloseOpen()) {
     $set = new LowBorderIncludedSet($leftBorder, $rightBorder);
     return $set->toString();
   } else if($inputParser->isCloseClose()){
+    $set = new Set($leftBorder, $rightBorder);
     return $set->toString();
+  } else {
+    $set = new Set($leftBorder, $rightBorder);
+    $setMembers = $set->membersInBetween();
+    return "{" . $setMembers . "}";
   }
 
-  return "{" . $setMembers . "}";
+
 }
 
 class InputParser {
@@ -138,7 +140,7 @@ class LowBorderIncludedSet extends Set {
   }
 }
 
-class NoBorderSet extends Set {
+class HighBorderIncludedSet extends Set {
   function members() {
     return $this->membersInBetween() . $this->higherBound();
   }
