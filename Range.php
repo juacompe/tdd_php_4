@@ -16,9 +16,11 @@ function calRange($input) {
     $firstZero = "";
   
     if($inputParser->isCloseClose()) {
-        $setMembers = $leftBorder;
+        $set = new SetWithOneMember($leftBorder, $rightBorder);
+        $setMembers = $set->membersInBetween();
     } else if ($inputParser->isOpenOpen()) {
-        $setMembers = "";
+        $set = new EmptySet($leftBorder, $rightBorder);
+        $setMembers = $set->membersInBetween();
     } else if($inputParser->isOpenClose()){
         throw new Exception("invalid");
     }
@@ -83,9 +85,21 @@ class InputParser {
   }
 }
 
+class EmptySet extends Set {
+  function membersInBetween() {
+    return "";
+  }
+}
+
+class SetWithOneMember extends Set {
+  function membersInBetween() {
+    return $this->lowBorder; 
+  }
+}
+
 class Set {
-  private $lowBorder;
-  private $highBorder;
+  protected $lowBorder;
+  protected $highBorder;
 
   function __construct($lowBorder, $highBorder) {
     $this->lowBorder = $lowBorder;
@@ -93,7 +107,7 @@ class Set {
   }
 
   function membersInBetween() {
-    if($this->lowBorder==$this->highBorder){
+    if($this->lowBorder == $this->highBorder){
       return "";
     }
     for($i=$this->lowBorder+1; $i< $this->highBorder; $i++){
